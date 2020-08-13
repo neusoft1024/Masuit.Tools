@@ -1,4 +1,4 @@
-﻿# Masuit.Tools
+# Masuit.Tools
 [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)   
 包含一些常用的操作类，大都是静态类，加密解密，反射操作，硬件信息，字符串扩展方法，日期时间扩展操作，大文件拷贝，图像裁剪，验证码等常用封装。[官网教程](https://masuit.com/55)  
 
@@ -9,6 +9,11 @@
 
 ## 请注意：
 一旦使用本开源项目以及引用了本项目或包含本项目代码的公司因为违反劳动法（包括但不限定非法裁员、超时用工、雇佣童工等）在任何法律诉讼中败诉的，项目作者有权利追讨本项目的使用费，或者直接不允许使用任何包含本项目的源代码！任何性质的`外包公司`或`996公司`需要使用本类库，请联系作者进行商业授权！其他企业或个人可随意使用不受限。
+
+## 建议开发环境
+操作系统：Windows 10 1903及以上版本  
+开发工具：VisualStudio2019 v16.5及以上版本  
+SDK：.Net Core 3.1.0及以上版本
 
 ## 安装程序包
 .NET Framework ≥4.6.1
@@ -75,6 +80,7 @@ string s = html.HtmlSantinizerStandard();//清理后：<div><span><a href="/user
 Windows.ClearMemorySilent();
 ```
 ### 6.任意进制转换
+可用于生成短id，短hash等操作，纯数学运算。
 ```csharp
 NumberFormater nf = new NumberFormater(36);//内置2-62进制的转换
 //NumberFormater nf = new NumberFormater("0123456789abcdefghijklmnopqrstuvwxyz");// 自定义进制字符，可用于生成验证码
@@ -84,7 +90,16 @@ Console.WriteLine("12345678的36进制是：" + s36); // 7clzi
 Console.WriteLine("36进制的7clzi是：" + num); // 12345678
 ```
 ```csharp
+//扩展方法形式调用
 var bin=12345678.ToBinary(36);//7clzi
+var num="7clzi".FromBinary(36);//12345678
+```
+```csharp
+//超大数字的进制转换
+var num = "E6186159D38CD50E0463A55E596336BD".FromBinaryBig(16);
+Console.WriteLine(num); // 十进制：305849028665645097422198928560410015421
+Console.WriteLine(num.ToBinary(64)); // 64进制：3C665pQUPl3whzFlVpoPqZ，22位长度
+Console.WriteLine(num.ToBinary(36)); // 36进制：dmed4dkd5bhcg4qdktklun0zh，25位长度
 ```
 ### 7.纳秒级性能计时器
 ```csharp
@@ -310,6 +325,9 @@ string s = enc.DesDecrypt("abcdefgh"); //DES密钥解密为明文
 RsaKey rsaKey = RsaCrypt.GenerateRsaKeys();// 生成RSA密钥对
 string encrypt = "123456".RSAEncrypt(rsaKey.PublicKey);// 公钥加密
 string s = encrypt.RSADecrypt(rsaKey.PrivateKey);// 私钥解密
+
+string s = "123".Crc32();// 生成crc32摘要
+string s = "123".Crc64();// 生成crc64摘要
 ```
 ### 20.实体校验
 ```csharp
